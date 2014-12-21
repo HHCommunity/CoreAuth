@@ -24,11 +24,15 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment(function() {
+    chdir(dirname(__FILE__));
 
-	'local' => array('homestead'),
+    $envFile = '../.environment.php';
 
-));
+    if (file_exists($envFile)) {
+        return include $envFile;
+    }
+});
 
 /*
 |--------------------------------------------------------------------------
